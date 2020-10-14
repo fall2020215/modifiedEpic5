@@ -435,8 +435,7 @@ def log_in_Screen(name):
         print("\nUnder Construction")
         log_in_Screen(name)
     elif(choice == "3"):
-        print("\nunder Construction")
-        log_in_Screen(name)
+        join_friend_Screen(name)
     elif(choice == "4"):
         manage = m.Manage()
         manage.createProfile(name)
@@ -541,4 +540,125 @@ def join_Incollege_Screen():
         sign_up_Screen()
     elif (choice == "3"):
         welcomeScreen()
+
+def join_friend_Screen(name):
+    print()
+    print("Select one of the below options:")
+    print("(1) Show My Network")
+    print("(2) Search Friend")
+    print("(3) List of Pending Friends!")
+    print("(4) Go Back to Log In Screen")
+    
+    choice = input("Your selection: ")
+
+    #check the right value of input from user
+    choice = check.check_option(choice,1,4)
+    
+    if(choice == "1"): 
+        manage = m.Manage()
+        manage.new_job(name)
+        log_in_Screen(name)
+    elif(choice == "2"):
+        search_friend_Screen(name)
+    elif(choice == "3"):
+        print("\nunder Construction")
+        log_in_Screen(name)
+    elif(choice == "4"):
+        log_in_Screen(name)
+
+
+def search_friend_Screen(name):
+    print()
+    print("Select one of the below options:")
+    print("(1) Search by Last Name")
+    print("(2) Search by University")
+    print("(3) Search by Major!")
+    print("(4) Go Back to Join Friend Screen")
+    
+    choice = input("Your selection: ")
+
+    #check the right value of input from user
+    choice = check.check_option(choice,1,4)
+    
+    if(choice == "1"): 
+        search_name = input("Enter your friend's last name: ")
+        list_search_student = [] #keep students that have the same last name
+        list_search_name = [] #keep usernames that have the same last name
+        manage = m.Manage()
+        for element in manage.get_list():
+            if element.get_last() == search_name and element.get_user_name() != name:
+                list_search_student.append(element)
+                list_search_name.append(element.get_user_name())
+        if len(list_search_student) != 0:
+            print()
+            print("This is the list of people that have the last name: " + search_name)
+            print()
+            print("Username\t\t" + "FirstName\t\t" +"LastName")
+            for element in list_search_student:
+                print(element.get_user_name() + "\t\t\t" + element.get_first() + "\t\t\t" + element.get_last()) 
+            
+            print("Select one of the below options:")
+            print("(1) Request to connect to above friends")
+            print("(2) Go Back to Join Friend Scree")
+
+            choice = input("Your selection: ")
+
+            #check the right value of input from user
+            choice = check.check_option(choice,1,2)
+
+            if (choice == "1"):      
+                print()
+                
+                while True:
+                    print()
+                    friend_name = input("Enter person's username is listed above you want to request to connect: ")
+                    if friend_name in list_search_name:
+                        manage.add_friend(name, friend_name)
+                        print("Request successfully!\n")
+                        print("Select one of the below options:")
+                        print("(1) Add one more friend")
+                        print("(2) Go Back to Join Friend Scree")
+
+                        choice_add = input("Your selection: ")
+                        #check the right value of input from user
+                        choice_add = check.check_option(choice_add,1,2)
+                        if (choice_add == "1"):
+                            continue
+                        elif (choice_add == "2"):
+                            break
+                    else:
+                        print("The username is not listed above")
+                        
+                        print("Select one of the below options:")
+                        print("(1) Add a friend is listed above")
+                        print("(2) Go Back to Join Friend Scree")
+
+                        choice_add = input("Your selection: ")
+                        #check the right value of input from user
+                        choice_add = check.check_option(choice_add,1,2)
+                        if (choice_add == "1"):
+                            continue
+                        elif (choice_add == "2"):
+                            break
+    
+                search_friend_Screen(name)
+                    
+            elif (choice == "2"):
+                search_friend_Screen(name)
+                
+        else:
+            print("Do not have any people that have last name: " + search_name)
+            search_friend_Screen(name)
+   
+
+        
+        
+    elif(choice == "2"):
+        print("\nUnder Construction")
+        search_friend_Screen(name)
+    elif(choice == "3"):
+        print("\nunder Construction")
+        search_friend_Screen(name)
+    elif(choice == "4"):
+        join_friend_Screen(name)
 

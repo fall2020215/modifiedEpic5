@@ -12,11 +12,13 @@ import job as j
 import settings as stg
 import profiles as pro
 from datetime import datetime
+import request_friend as rf
 
 FILENAME = "student_data.csv"
 FILENAME_JOB = "job_data.csv"
 FILENAME_STG = "settings.csv"
 FILENAME_PRO = "profiles.csv"
+FILENAME_REQUEST = "request_friends.csv"
 
 class Manage:
     def __init__(self):
@@ -27,6 +29,11 @@ class Manage:
         self.__list_job = []
         self.__list_settings = []
         self.__list_profiles = []
+
+        #for epic5
+        self.__list_request_friend = []
+
+
 
         #add title for the student_data.csv
         if not os.path.isfile(FILENAME):
@@ -80,9 +87,26 @@ class Manage:
             for row in reader_csv:
                 if row != []:
                     self.__list_profiles.append(pro.Profiles(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
+
+
+#new for epic5
+        #add title for the request_friends.csv
+        if not os.path.isfile(FILENAME_REQUEST):
+            with open(FILENAME_REQUEST,"w") as file:
+                writer_csv = csv.writer(file)
+                writer_csv.writerow(("Request_name","Pending_name"))
+
+        #add data from student_data.csv to __self.__list_student
+        with open(FILENAME_REQUEST,"r") as file:
+            reader_csv = csv.reader(file)
+            for row in reader_csv:
+                if row != []:
+                    self.__list_request_friend.append(rf.Request_Friend(row[0], row[1]))
     
     def get_list(self):
         return self.__list_student
+
+    
 
     
     def get_length(self):
@@ -97,7 +121,7 @@ class Manage:
                 print("Try again!")
                 return None #It is easier for pytest
        
-        if len(self.__list_student) < 6:
+        if len(self.__list_student) < 11:
             self.__list_student.append(student)
             user_name = student.get_user_name()
             print("\nCongratulate",student.get_name(), "\nYou signed up and logged in successfully!")
@@ -338,6 +362,13 @@ class Manage:
         print()
         print("You did not create a profile!")
         return name
+
+#new for epic5
+    def add_friend(self, name, friend_name):
+        with open(FILENAME_REQUEST,"a") as file:
+            writer_csv = csv.writer(file)
+            writer_csv.writerow((name, friend_name))
+    
 
         
 
