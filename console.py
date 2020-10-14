@@ -581,6 +581,7 @@ def search_friend_Screen(name):
     choice = check.check_option(choice,1,4)
     
     if(choice == "1"): 
+        print()
         search_name = input("Enter your friend's last name: ")
         list_search_student = [] #keep students that have the same last name
         list_search_name = [] #keep usernames that have the same last name
@@ -593,9 +594,8 @@ def search_friend_Screen(name):
             print()
             print("This is the list of people that have the last name: " + search_name)
             print()
-            print("Username\t\t" + "FirstName\t\t" +"LastName")
-            for element in list_search_student:
-                print(element.get_user_name() + "\t\t\t" + element.get_first() + "\t\t\t" + element.get_last()) 
+            manage.display_information_list_friend(name,list_search_student)
+            print()
             
             print("Select one of the below options:")
             print("(1) Request to connect to above friends")
@@ -607,28 +607,47 @@ def search_friend_Screen(name):
             choice = check.check_option(choice,1,2)
 
             if (choice == "1"):      
+                list_friend_name = manage.get_list_friend_pending(name)
                 print()
-                
+        
                 while True:
                     print()
                     friend_name = input("Enter person's username is listed above you want to request to connect: ")
-                    if friend_name in list_search_name:
+                    if friend_name in list_search_name and friend_name not in list_friend_name: # if the username is in the above list and not in request_friends.csv
                         manage.add_friend(name, friend_name)
+                        print()
                         print("Request successfully!\n")
+                        print()
                         print("Select one of the below options:")
                         print("(1) Add one more friend")
-                        print("(2) Go Back to Join Friend Scree")
+                        print("(2) Go Back to Join Friend Screen")
 
                         choice_add = input("Your selection: ")
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            continue
+                            manage.display_information_list_friend(name,list_search_student)
+                        elif (choice_add == "2"):
+                            break
+                    elif friend_name in list_search_name:
+                        print()
+                        print("This person is existing on your pending friends")
+                        print()
+                        print("Select one of the below options:")
+                        print("(1) Add another friend")
+                        print("(2) Go Back to Join Friend Screen")
+
+                        choice_add = input("Your selection: ")
+                        #check the right value of input from user
+                        choice_add = check.check_option(choice_add,1,2)
+                        if (choice_add == "1"):
+                            manage.display_information_list_friend(name,list_search_student)
                         elif (choice_add == "2"):
                             break
                     else:
+                        print()
                         print("The username is not listed above")
-                        
+                        print()
                         print("Select one of the below options:")
                         print("(1) Add a friend is listed above")
                         print("(2) Go Back to Join Friend Scree")
@@ -637,7 +656,8 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            continue
+                            manage.display_information_list_friend(name,list_search_student)
+                            print()
                         elif (choice_add == "2"):
                             break
     

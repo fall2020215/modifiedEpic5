@@ -368,9 +368,22 @@ class Manage:
         with open(FILENAME_REQUEST,"a") as file:
             writer_csv = csv.writer(file)
             writer_csv.writerow((name, friend_name))
-    
 
-        
+    def get_list_friend_pending(self, name):
+        list_friend = []
+        with open(FILENAME_REQUEST,"r") as file:
+            reader_csv = csv.reader(file)
+            for row in reader_csv:
+                if row != [] and row[0] == name:
+                    list_friend.append(row[1])
+        return list_friend
+
+    def display_information_list_friend(self, name, list_friend):
+        print("Username\t\t" + "FirstName\t\t" +"LastName")
+        for element in list_friend:
+            print(element.get_user_name() + "\t\t\t" + element.get_first() + "\t\t\t" + element.get_last()) 
+
+            
 
 def valiDate(date_text):
     try:
