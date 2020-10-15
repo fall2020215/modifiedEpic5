@@ -548,6 +548,7 @@ def join_Incollege_Screen():
 
 def join_friend_Screen(name):
     print()
+    manage = m.Manage()
     print("Select one of the below options:")
     print("(1) Show My Network")
     print("(2) Search Friend")
@@ -560,17 +561,27 @@ def join_friend_Screen(name):
     choice = check.check_option(choice,1,4)
     
     if(choice == "1"): 
-        manage = m.Manage()
-        manage.new_job(name)
-        log_in_Screen(name)
+        #manage = m.Manage()
+        list_friend_accept = manage.display_information_list_friend_accept(name)
+        if len(list_friend_accept) != 0:
+            print("\nThe list of your friends:")
+            for element in list_friend_accept:
+                print(element)
+        else:
+            print("\nYou don't have any friend in Icollege")
+
+        join_friend_Screen(name)
     elif(choice == "2"):
         search_friend_Screen(name)
     elif(choice == "3"):
-        manage = m.Manage()
+        #manage = m.Manage()
         list_friend_pending = manage.get_list_friend_pending(name) # list_friend_pending : is the list of username
-        print("\nThe list of pending friends: ")
-        for element in list_friend_pending:
-            print(element)
+        if len(list_friend_pending) != 0:
+            print("\nThe list of pending friends: ")
+            for element in list_friend_pending:
+                print(element)
+        else:
+            print("\nYou don't have any pending friend")
         join_friend_Screen(name)
     elif(choice == "4"):
         log_in_Screen(name)

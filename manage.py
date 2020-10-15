@@ -440,6 +440,19 @@ class Manage:
             writer_csv.writerow((friend_name,name))
         self.__list_accept_friend.append(af.Accept_Friend(friend_name,name))
 
+    def display_information_list_friend_accept(self,name):
+        list_friend_accept = []
+        with open(FILENAME_ACCEPT,"r") as file:
+            reader_csv = csv.reader(file)
+            for row in reader_csv:
+                if row != [] and row[0] == name:
+                    list_friend_accept.append(row[1])
+                elif row != [] and row[1] == name:
+                    list_friend_accept.append(row[0])
+                    
+        return list_friend_accept
+
+
 ###############################################################################################################         
 
 def valiDate(date_text):
