@@ -463,7 +463,6 @@ def log_in_Screen(name):
     choice = check.check_option(choice,1,10)
     
     if(choice == "1"): 
-       # manage = m.Manage()
         manage.new_job(name)
         log_in_Screen(name)
     elif(choice == "2"):
@@ -472,14 +471,12 @@ def log_in_Screen(name):
     elif(choice == "3"):
         join_friend_Screen(name)
     elif(choice == "4"):
-        #manage = m.Manage()
         manage.createProfile(name)
         choice = input("\nEnter 1 to return to previous screen: ")
         #check the right value of input from user
         choice = check.check_option(choice,1,1)
         log_in_Screen(name)
     elif(choice == "5"):
-        #manage = m.Manage()
         manage.viewProfile(name)
         choice = input("\nEnter 1 to return to previous screen: ")
         #check the right value of input from user
@@ -491,7 +488,7 @@ def log_in_Screen(name):
             print("\nThis is the list of your friends")
             
             while True:
-                print(list_friend_accept)
+                print(', '.join(list_friend_accept))
                 username_friend = input("Enter your friend's username to see his/her profile: ")
                 if username_friend in list_friend_accept:
                     manage.viewProfile(username_friend)
@@ -602,12 +599,10 @@ def join_friend_Screen(name):
     choice = check.check_option(choice,1,4)
     
     if(choice == "1"): 
-        #manage = m.Manage()
         list_friend_accept = manage.get_list_friend_accept(name)
         if len(list_friend_accept) != 0:
             print("\nThe list of your friends:")
-            for element in list_friend_accept:
-                print(element)
+            print(', '.join(list_friend_accept))
         else:
             print("\nYou don't have any friend in Icollege")
 
@@ -615,12 +610,11 @@ def join_friend_Screen(name):
     elif(choice == "2"):
         search_friend_Screen(name)
     elif(choice == "3"):
-        #manage = m.Manage()
         list_friend_pending = manage.get_list_friend_pending(name) # list_friend_pending : is the list of username
         if len(list_friend_pending) != 0:
             print("\nThe list of pending friends: ")
-            for element in list_friend_pending:
-                print(element)
+            print(', '.join(list_friend_pending))
+
         else:
             print("\nYou don't have any pending friend")
         join_friend_Screen(name)
@@ -644,20 +638,16 @@ def search_friend_Screen(name):
     if(choice == "1"): 
         print()
         search_name = input("Enter your friend's last name: ")
-        #list_search_student = [] #keep students that have the same last name
         list_search_name = [] #keep usernames that have the same last name
         manage = m.Manage()
         for element in manage.get_list():
             if element.get_last() == search_name and element.get_user_name() != name:
-                #list_search_student.append(element)
                 list_search_name.append(element.get_user_name())
         if len(list_search_name) != 0:
             print()
             print("This is the list of people that have the last name: " + search_name)
             print()
-            #manage.display_information_list_friend(name,list_search_student)
             print(', '.join(list_search_name))
-            print()
             
             print("Select one of the below options:")
             print("(1) Request to connect to above friends")
@@ -689,7 +679,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print(', '.join(list_search_name))
                         elif (choice_add == "2"):
                             break
@@ -720,7 +709,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_name))
                         elif (choice_add == "2"):
@@ -757,7 +745,6 @@ def search_friend_Screen(name):
         print()
         search_university = input("Enter your friend's university name: ")
         print(search_university.lower())
-        #list_search_student = [] #keep students that have the same university
         list_search_university = [] #keep usernames that have the same university
         manage = m.Manage()
         for element in manage.get_list_profile():
@@ -768,7 +755,6 @@ def search_friend_Screen(name):
             print()
             print("This is the list of people that have the university name: " + search_university.lower())
             print()
-            #manage.display_information_list_friend(name,list_search_student)
             print(', '.join(list_search_university))
             print()
             
@@ -802,7 +788,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print(', '.join(list_search_university))
                         elif (choice_add == "2"):
                             break
@@ -818,7 +803,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_university))
                         elif (choice_add == "2"):
@@ -835,7 +819,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_university))
                         elif (choice_add == "2"):
@@ -853,7 +836,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_university))
                             
@@ -872,8 +854,7 @@ def search_friend_Screen(name):
         print()
         search_major = input("Enter your friend's major name: ")
         print(search_major.lower())
-        #list_search_student = [] #keep students that have the same university
-        list_search_major = [] #keep usernames that have the same university
+        list_search_major = [] #keep usernames that have the same major
         manage = m.Manage()
         for element in manage.get_list_profile():
             if element.get_major().lower() == search_major.lower() and element.get_user() != name:
@@ -883,7 +864,6 @@ def search_friend_Screen(name):
             print()
             print("This is the list of people that have the major name: " + search_major.lower())
             print()
-            #manage.display_information_list_friend(name,list_search_student)
             print(', '.join(list_search_major))
             print()
             
@@ -917,7 +897,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print(', '.join(list_search_major))
                         elif (choice_add == "2"):
                             break
@@ -933,7 +912,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_major))
                         elif (choice_add == "2"):
@@ -950,7 +928,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_major))
                         elif (choice_add == "2"):
@@ -968,7 +945,6 @@ def search_friend_Screen(name):
                         #check the right value of input from user
                         choice_add = check.check_option(choice_add,1,2)
                         if (choice_add == "1"):
-                            #manage.display_information_list_friend(name,list_search_student)
                             print()
                             print(', '.join(list_search_major))
                             
