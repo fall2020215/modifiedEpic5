@@ -139,6 +139,9 @@ class Manage:
 
     def get_list_pending_friend(self):
         return self.__list_request_friend
+
+    def get_list_profile(self):
+        return self.__list_profiles
     
 
 ############################### END #######################################################
