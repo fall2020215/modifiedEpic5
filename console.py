@@ -486,8 +486,44 @@ def log_in_Screen(name):
         choice = check.check_option(choice,1,1)
         log_in_Screen(name)
     elif (choice == "6"):
-        print("under")
-        log_in_Screen(name)
+        list_friend_accept = manage.get_list_friend_accept(name)
+        if len(list_friend_accept) != 0:
+            print("\nThis is the list of your friends")
+            print(list_friend_accept)
+            while True:
+                username_friend = input("Enter your friend's username to see his/her profile: ")
+                if username_friend in list_friend_accept:
+                    manage.viewProfile(username_friend)
+                    print("Select one of the below options:")
+                    print("(1) See another profile")
+                    print("(2) Come Back to Log In Screen")
+                    choice = input("Your selection: ")
+
+                    #check the right value of input from user
+                    choice = check.check_option(choice,1,2)
+                    if(choice == "1"): 
+                        continue
+                    elif (choice == "2"):
+                        break
+                else:
+                    print("\nHe/she is not your friends")
+                    print("Select one of the below options:")
+                    print("(1) Try again")
+                    print("(2) Come Back to Log In Screen")
+                    choice = input("Your selection: ")
+
+                    #check the right value of input from user
+                    choice = check.check_option(choice,1,2)
+    
+                    if(choice == "1"): 
+                        continue
+                    elif (choice == "2"):
+                        break
+            log_in_Screen(name)
+
+        else:
+            print ("\nYou don't have any friend in Icollege")
+            log_in_Screen(name)
     elif(choice == "7"):
         learnSkill_Screen(name)
     elif(choice == "8"):
@@ -562,7 +598,7 @@ def join_friend_Screen(name):
     
     if(choice == "1"): 
         #manage = m.Manage()
-        list_friend_accept = manage.display_information_list_friend_accept(name)
+        list_friend_accept = manage.get_list_friend_accept(name)
         if len(list_friend_accept) != 0:
             print("\nThe list of your friends:")
             for element in list_friend_accept:
@@ -628,6 +664,7 @@ def search_friend_Screen(name):
 
             if (choice == "1"):      
                 list_friend_name = manage.get_list_friend_pending(name)
+                #list_friend_name_accept = manage.get_length_list_accept_friend(name)
                 print()
         
                 while True:

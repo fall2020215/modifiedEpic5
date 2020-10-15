@@ -390,7 +390,7 @@ class Manage:
                 
                 
         print()
-        print("You did not create a profile!")
+        print("Don't have a profile!")
         return name
 
 ########################################################################
@@ -428,6 +428,7 @@ class Manage:
                 if row != [] and row[0] == name:
                     list_friend.append(row[1])
         return list_friend 
+    
 
     def display_information_list_friend(self, name, list_friend): #list_friend is the list of students
         print("Username\t\t" + "FirstName\t\t" +"LastName")
@@ -440,7 +441,7 @@ class Manage:
             writer_csv.writerow((friend_name,name))
         self.__list_accept_friend.append(af.Accept_Friend(friend_name,name))
 
-    def display_information_list_friend_accept(self,name):
+    def get_list_friend_accept(self,name):
         list_friend_accept = []
         with open(FILENAME_ACCEPT,"r") as file:
             reader_csv = csv.reader(file)
@@ -449,7 +450,7 @@ class Manage:
                     list_friend_accept.append(row[1])
                 elif row != [] and row[1] == name:
                     list_friend_accept.append(row[0])
-                    
+
         return list_friend_accept
 
 
