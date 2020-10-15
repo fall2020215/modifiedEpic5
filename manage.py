@@ -13,12 +13,14 @@ import settings as stg
 import profiles as pro
 from datetime import datetime
 import request_friend as rf
+import accept_friend as af
 
 FILENAME = "student_data.csv"
 FILENAME_JOB = "job_data.csv"
 FILENAME_STG = "settings.csv"
 FILENAME_PRO = "profiles.csv"
 FILENAME_REQUEST = "request_friends.csv"
+FILENAME_ACCEPT = "accept_friends.csv"
 
 class Manage:
     def __init__(self):
@@ -30,10 +32,13 @@ class Manage:
         self.__list_settings = []
         self.__list_profiles = []
 
+##############################################################
         #for epic5
         self.__list_request_friend = []
+        self.__list_accept_friend = []
 
 
+###############################################################
 
         #add title for the student_data.csv
         if not os.path.isfile(FILENAME):
@@ -88,7 +93,7 @@ class Manage:
                 if row != []:
                     self.__list_profiles.append(pro.Profiles(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
 
-
+############################### BEGIN ###############################################
 #new for epic5
         #add title for the request_friends.csv
         if not os.path.isfile(FILENAME_REQUEST):
@@ -96,21 +101,47 @@ class Manage:
                 writer_csv = csv.writer(file)
                 writer_csv.writerow(("Request_name","Pending_name"))
 
-        #add data from student_data.csv to __self.__list_student
+        #add data from request_friends.csv to __self.__request_friend
         with open(FILENAME_REQUEST,"r") as file:
             reader_csv = csv.reader(file)
             for row in reader_csv:
                 if row != []:
                     self.__list_request_friend.append(rf.Request_Friend(row[0], row[1]))
-    
-    def get_list(self):
+
+        #add title for the accept_friends.csv
+        if not os.path.isfile(FILENAME_ACCEPT):
+            with open(FILENAME_ACCEPT, "w") as file:
+                writer_csv = csv.writer(file)
+                writer_csv.writerow(("Request","Accept"))
+        
+        #add data from accept_friends.csv to __self.__accept_friend
+        with open(FILENAME_ACCEPT, "r") as file:
+            reader_csv = csv.reader(file)
+            for row in reader_csv:
+                if row != []:
+                    self.__list_accept_friend.append(af.Accept_Friend(row[0],row[1]))
+            
+ ############################# END ######################################################
+
+    def get_list(self): # for the list of student
         return self.__list_student
 
+ 
+    def get_length(self): # for the length of the list of student
+        return len(self.__list_student)
+
+############################### BEGIN #################################################
+    def get_list_accept_friend(self):
+        return self.__list_accept_friend
+
+    def get_length_list_accept_friend(self):
+        return len(self.__list_accept_friend)
+
+    def get_list_pending_friend(self):
+        return self.__list_request_friend
     
 
-    
-    def get_length(self):
-        return len(self.__list_student)
+############################### END #######################################################
 
             
     # add a new object student with given first, last name and password to student_data.csv file 
@@ -214,7 +245,6 @@ class Manage:
         
         print("\nThey are not yet a part of the InCollege system yet")
         return None
-
 
 
 
@@ -363,27 +393,54 @@ class Manage:
         print("You did not create a profile!")
         return name
 
+########################################################################
 #new for epic5
-    def add_friend(self, name, friend_name):
+    def add_friend(self, name, friend_name): #pending friend
         with open(FILENAME_REQUEST,"a") as file:
             writer_csv = csv.writer(file)
             writer_csv.writerow((name, friend_name))
+        self.__list_request_friend.append(rf.Request_Friend(name,friend_name))
+
+    def delete_add_friend(self,name, friend_name):
+        self.__list_request_friend.clear()
+        with open(FILENAME_REQUEST,"r") as file:
+            reader_csv = csv.reader(file)
+            for row in reader_csv:
+                if row != [] and (row[0] != friend_name or row[1] != name):
+                    self.__list_request_friend.append(rf.Request_Friend(row[0], row[1]))
+
+        with open (FILENAME_REQUEST, "w") as file:
+            writer_csv = csv.writer(file)
+            for element in self.__list_request_friend:
+                writer_csv.writerow((element.get_request_name(),element.get_pending_name()))
+
+        for element in self.__list_request_friend:
+            print(element.get_pending_name())
+        print()
+
+            
 
     def get_list_friend_pending(self, name):
-        list_friend = []
+        list_friend = [] #list_friend is the list of username
         with open(FILENAME_REQUEST,"r") as file:
             reader_csv = csv.reader(file)
             for row in reader_csv:
                 if row != [] and row[0] == name:
                     list_friend.append(row[1])
-        return list_friend
+        return list_friend 
 
-    def display_information_list_friend(self, name, list_friend):
+    def display_information_list_friend(self, name, list_friend): #list_friend is the list of students
         print("Username\t\t" + "FirstName\t\t" +"LastName")
         for element in list_friend:
             print(element.get_user_name() + "\t\t\t" + element.get_first() + "\t\t\t" + element.get_last()) 
 
-            
+    def add_accept_friend(self, friend_name, name):
+        with open(FILENAME_ACCEPT,"a") as file:
+            writer_csv = csv.writer(file)
+            writer_csv.writerow((friend_name,name))
+        self.__list_accept_friend.append(af.Accept_Friend(friend_name,name))
+
+###############################################################################################################         
 
 def valiDate(date_text):
     try:

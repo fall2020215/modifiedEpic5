@@ -411,6 +411,41 @@ def learnSkill_Screen(name):
 #The screen after the user log in successfully
 def log_in_Screen(name):
     print()
+    manage = m.Manage()
+    list_request = [] # list of usernames request for this user
+   
+    for element in manage.get_list_pending_friend():
+        if element.get_pending_name() == name:
+            list_request.append(element.get_request_name())
+    if len(list_request) != 0:
+        print("You have some requests from some friends")
+        print("This is the list of friends that requested to you:")
+        print()
+        for element in list_request:
+            print(element)
+        
+        print()
+
+        
+        for element in list_request: # element keeps usernam of request
+            print()
+            print("Do you want to accept or reject from " + element + " ?")
+            print("Select one of the below options:")
+            print("(1) Accept")
+            print("(2) Reject")
+
+            choice = input("Your selection: ")
+            #check the right value of input from user
+            choice = check.check_option(choice,1,2)
+
+            if(choice == "1"):
+                manage.add_accept_friend(element,name)
+                manage.delete_add_friend(name,element)
+            elif (choice == "2"):
+                manage.delete_add_friend(name,element)
+
+
+    print()
     print("Select one of the below options:")
     print("(1) Post Job")
     print("(2) Search Job")
@@ -428,7 +463,7 @@ def log_in_Screen(name):
     choice = check.check_option(choice,1,10)
     
     if(choice == "1"): 
-        manage = m.Manage()
+       # manage = m.Manage()
         manage.new_job(name)
         log_in_Screen(name)
     elif(choice == "2"):
@@ -437,21 +472,21 @@ def log_in_Screen(name):
     elif(choice == "3"):
         join_friend_Screen(name)
     elif(choice == "4"):
-        manage = m.Manage()
+        #manage = m.Manage()
         manage.createProfile(name)
         choice = input("\nEnter 1 to return to previous screen: ")
         #check the right value of input from user
         choice = check.check_option(choice,1,1)
         log_in_Screen(name)
     elif(choice == "5"):
-        manage = m.Manage()
+        #manage = m.Manage()
         manage.viewProfile(name)
         choice = input("\nEnter 1 to return to previous screen: ")
         #check the right value of input from user
         choice = check.check_option(choice,1,1)
         log_in_Screen(name)
     elif (choice == "6"):
-        friend_Screen(name)
+        print("under")
         log_in_Screen(name)
     elif(choice == "7"):
         learnSkill_Screen(name)
@@ -461,36 +496,6 @@ def log_in_Screen(name):
         importantLinks_Screen(1, name)
     elif(choice == "10"):
         welcomeScreen()
-
-
-
-def friend_Screen(name):
-    print("Here is a list of your friends:")
-    print("Type in the first and last name of your friend to view their profile:")
-    first_name_orig = input('Enter the first name:')
-    last_name_orig = input('Enter the last name:')
-    entire_name = first_name_orig + last_name_orig
-    f = open("student_data.csv", "r")
-    val = 1
-    for x in f:
-
-        if val == 0:
-            val = 1
-        else:
-            list = x.split(",")
-            first_name = list[2]
-            last_name = list[3]
-            last_name = last_name.rstrip()
-            if first_name_orig == first_name and last_name_orig == last_name:
-                print("username is: " + list[0])
-                username = list[0]
-                manage = m.Manage()
-                manage.viewProfile(username)
-            val = 0
-    list.clear()
-
-    f.close()
-
 
 def sign_up_Screen():
     manage = m.Manage()
@@ -561,8 +566,12 @@ def join_friend_Screen(name):
     elif(choice == "2"):
         search_friend_Screen(name)
     elif(choice == "3"):
-        print("\nunder Construction")
-        log_in_Screen(name)
+        manage = m.Manage()
+        list_friend_pending = manage.get_list_friend_pending(name) # list_friend_pending : is the list of username
+        print("\nThe list of pending friends: ")
+        for element in list_friend_pending:
+            print(element)
+        join_friend_Screen(name)
     elif(choice == "4"):
         log_in_Screen(name)
 

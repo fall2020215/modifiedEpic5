@@ -1,6 +1,6 @@
 """ 
-student.py file has:
-class Student: store information of a student such as first name, last name, password, ....
+request_friend.py file has:
+class Request_Friend: store information of a request such as Request_name, Pending_name
 """
 class Request_Friend:
     def __init__(self, request_name, pending_name):
